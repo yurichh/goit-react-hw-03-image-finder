@@ -1,13 +1,44 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { createPortal } from 'react-dom';
+const modalRoot = document.querySelector('#modal-root');
 
-const Modal = () => {
-  return (
-    <div className="overlay">
-      <div className="modal">
-        <img src="" alt="" />
-      </div>
-    </div>
-  );
-};
+class Modal extends Component {
+  componentDidMount() {
+    window.addEventListener('keydown', this.closeEscape);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.closeEscape);
+  }
+  closeEscape = e => {
+    if (e.key === 'Escape') {
+      this.props.toggleModal();
+    }
+  };
+  render() {
+    const { currentImage } = this.props;
+    const { image, text } = currentImage;
+    return createPortal(
+      <div
+        className="overlay"
+        // onClick={e => {
+        // console.log(e);
+        // this.props.toggleModal();
+        // }}
+      >
+        <div className="modal">
+          <button
+            type="button"
+            className="modal-close-btn"
+            onClick={this.props.toggleModal}
+          >
+            X
+          </button>
+          <img src={image} alt={text} className="modal-img" />
+        </div>
+      </div>,
+      modalRoot
+    );
+  }
+}
 
 export default Modal;

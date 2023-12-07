@@ -12,7 +12,7 @@ class Searchbar extends Component {
       <header className="searchbar">
         <form
           onSubmit={e => {
-            this.props.handleSubmit(e, this.state.query);
+            this.props.onSubmit(e, this.state.query);
           }}
           className="search-form"
         >
@@ -38,6 +38,7 @@ class Searchbar extends Component {
             type="text"
             autoComplete="off"
             placeholder="Search images and photos"
+            required
             value={this.state.query}
             onChange={this.handleChange}
           />

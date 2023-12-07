@@ -1,10 +1,18 @@
 import React from 'react';
+import ImageGalleryItem from './ImageGalleryItem';
+import { nanoid } from 'nanoid';
 
-const ImageGallery = ({ image }) => {
+const ImageGallery = ({ images, getCurrentImage }) => {
   return (
-    <li className="gallery-item" key={image.id}>
-      <img className="gallery-img" src={image.webformatURL} alt={image.tags} />
-    </li>
+    <ul className="gallery-list">
+      {images.map(image => (
+        <ImageGalleryItem
+          image={image}
+          key={nanoid()}
+          getCurrentImage={getCurrentImage}
+        />
+      ))}
+    </ul>
   );
 };
 

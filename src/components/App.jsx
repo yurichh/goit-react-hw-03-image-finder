@@ -4,17 +4,42 @@ import Button from './Button';
 import Loader from './Loader';
 import Modal from './Modal';
 import { Component } from 'react';
-import axios from 'axios';
+import { serviceImages } from 'services/api';
 class App extends Component {
   //  API_KEY = 39910711-abcee3e7f1b375d2c0a92cc23
 
   state = {
-    isLoadMore: false,
-    isLoading: true,
-    isShowModal: false,
+    loadMore: false,
+    loading: false,
+    showModal: false,
     query: '',
     page: 1,
     images: [],
+    currentImage: {},
+  };
+
+  componentDidUpdate(_, prevState) {
+    const { query, page } = this.state;
+    if (page !== prevState.page || query !== prevState.query) {
+      if (query !== prevState.query) {
+        this.setState({
+          images: [],
+          page: 1,
+        });
+      }
+      this.getImages(query, page);
+    }
+  }
+  getCurrentImage = (img, text) => {
+    this.setState({
+      currentImage: { image: img, text: text },
+      showModal: true,
+    });
+  };
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
   };
   handleSubmit = (e, query) => {
     e.preventDefault();
@@ -23,42 +48,44 @@ class App extends Component {
   pageIncrement = () => {
     this.setState(prev => ({ page: prev.page + 1 }));
   };
-  componentDidUpdate(_, prevState) {
-    const { query, page } = this.state;
-    if (page !== prevState.page || query !== prevState.query) {
-      if (query !== prevState.query) {
-        this.setState(prevState => ({
-          images: [],
-        }));
-      }
-      axios(
-        `https://pixabay.com/api/?q=${query}&page=${page}&key=39910711-abcee3e7f1b375d2c0a92cc23&image_type=photo&orientation=horizontal&per_page=12`
-      )
-        .then(({ data }) => {
-          console.log(data);
-          this.setState(prevState => ({
-            images: [...prevState.images, ...data.hits],
-            isLoadMore: true,
-          }));
-        })
-        .catch(err => console.log(err.message));
+  getImages = async (q, p) => {
+    try {
+      this.setState({ loading: true, loadMore: false });
+      const { data } = await serviceImages(q, p);
+      // console.log(q, p);
+      this.setState(prevState => ({
+        images: [...prevState.images, ...data.hits],
+        loadMore: this.state.page < Math.ceil(data.totalHits / 12),
+      }));
+    } catch (err) {
+      console.log(err.message);
+    } finally {
+      this.setState({ loading: false });
     }
-  }
+  };
+
   render() {
     // eslint-disable-next-line
-    const { isLoadMore, isLoading, isShowModal, query, page, images } =
-      this.state;
+    const { loadMore, loading, showModal, images, currentImage } = this.state;
     return (
       <>
-        <Searchbar handleSubmit={this.handleSubmit} />
-        <ul className="gallery-list">
-          {images.map(image => (
-            <ImageGallery image={image} />
-          ))}
-        </ul>
-        {isLoadMore && <Button pageIncrement={this.pageIncrement} />}
-        {isLoading && <Loader />}
-        <Modal />
+        <Searchbar onSubmit={this.handleSubmit} />
+
+        {images && (
+          <ImageGallery
+            images={images}
+            getCurrentImage={this.getCurrentImage}
+          />
+        )}
+        {/* {images || (
+          <h1 style={{ textAlign: 'center', marginTop: 50 }}>No images here</h1>
+        )} */}
+
+        {loadMore && <Button pageIncrement={this.pageIncrement} />}
+        {loading && <Loader />}
+        {showModal && (
+          <Modal toggleModal={this.toggleModal} currentImage={currentImage} />
+        )}
       </>
     );
   }

@@ -56,6 +56,7 @@ code {
   top: 50%;
   left: 50%;
   transform: translate(-50%, 50%);
+  margin-bottom: 40px;
 }
 .more-btn:hover,
 .more-btn:focus {
@@ -68,9 +69,9 @@ code {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: radial-gradient(farthest-side, #766df4 94%, #0000) top/8px 8px
+  background: radial-gradient(farthest-side, #32bc3f 94%, #0000) top/8px 8px
       no-repeat,
-    conic-gradient(#0000 30%, #766df4);
+    conic-gradient(#0000 30%, #32bc3f);
   mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
   animation: s3 1s infinite linear;
 }
@@ -93,4 +94,48 @@ code {
 }
 .gallery-img {
   width: 100%;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000000a1;
+}
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 1200px;
+  padding: 5px;
+  background-color: #fff;
+  border-radius: 10px;
+}
+.modal-img {
+  width: 100%;
+  height: auto;
+}
+.modal-close-btn {
+  color: white;
+  position: absolute;
+  top: 6px;
+  right: 4px;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(171, 171, 171, 0.554);
+  border-radius: 50%;
+  border: none;
+  font-weight: 500;
+}
+
+.modal-close-btn:hover,
+.modal-close-btn:focus {
+  color: black;
+  background-color: rgba(255, 255, 255, 0.809);
+  box-shadow: 0 0 5px rgb(73, 73, 73);
 }
