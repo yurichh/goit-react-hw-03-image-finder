@@ -14,17 +14,16 @@ class Modal extends Component {
       this.props.toggleModal();
     }
   };
+  closeBackdrop = e => {
+    if (e.target === e.currentTarget) {
+      this.props.toggleModal();
+    }
+  };
   render() {
     const { currentImage } = this.props;
     const { image, text } = currentImage;
     return createPortal(
-      <div
-        className="overlay"
-        // onClick={e => {
-        // console.log(e);
-        // this.props.toggleModal();
-        // }}
-      >
+      <div className="overlay" onClick={this.closeBackdrop}>
         <div className="modal">
           <button
             type="button"
