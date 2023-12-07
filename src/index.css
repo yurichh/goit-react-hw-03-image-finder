@@ -90,7 +90,7 @@ code {
   gap: 20px;
 }
 .gallery-item {
-  width: calc((100% - 40px) / 3);
+  width: calc((100% - 60px) / 4);
 }
 .gallery-img {
   width: 100%;
@@ -110,7 +110,7 @@ code {
   transform: translate(-50%, -50%);
   max-width: 1200px;
   padding: 5px;
-  background-color: #fff;
+  background-color: #b1b1b189;
   border-radius: 10px;
 }
 .modal-img {
@@ -120,8 +120,8 @@ code {
 .modal-close-btn {
   color: white;
   position: absolute;
-  top: 6px;
-  right: 4px;
+  top: 8px;
+  right: 8px;
   width: 25px;
   height: 25px;
   display: flex;
