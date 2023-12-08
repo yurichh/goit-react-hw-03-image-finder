@@ -12,7 +12,8 @@ class Searchbar extends Component {
       <header className="searchbar">
         <form
           onSubmit={e => {
-            this.props.onSubmit(e, this.state.query);
+            e.preventDefault();
+            this.props.handleSubmit(this.state.query);
           }}
           className="search-form"
         >

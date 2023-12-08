@@ -1,6 +1,5 @@
 import React from 'react';
 import ImageGalleryItem from './ImageGalleryItem';
-import { nanoid } from 'nanoid';
 
 const ImageGallery = ({ images, getCurrentImage }) => {
   return (
@@ -8,7 +7,7 @@ const ImageGallery = ({ images, getCurrentImage }) => {
       {images.map(image => (
         <ImageGalleryItem
           image={image}
-          key={nanoid()}
+          key={image.id}
           getCurrentImage={getCurrentImage}
         />
       ))}

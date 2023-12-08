@@ -21,12 +21,6 @@ class App extends Component {
   componentDidUpdate(_, prevState) {
     const { query, page } = this.state;
     if (page !== prevState.page || query !== prevState.query) {
-      if (query !== prevState.query) {
-        this.setState({
-          images: [],
-          page: 1,
-        });
-      }
       this.getImages(query, page);
     }
   }
@@ -41,9 +35,8 @@ class App extends Component {
       showModal: !showModal,
     }));
   };
-  handleSubmit = (e, query) => {
-    e.preventDefault();
-    this.setState({ query: query });
+  handleSubmit = query => {
+    this.setState({ query: query, page: 1, images: [] });
   };
   pageIncrement = () => {
     this.setState(prev => ({ page: prev.page + 1 }));
@@ -65,22 +58,14 @@ class App extends Component {
   };
 
   render() {
-    // eslint-disable-next-line
     const { loadMore, loading, showModal, images, currentImage } = this.state;
     return (
       <>
-        <Searchbar onSubmit={this.handleSubmit} />
-
-        {images && (
-          <ImageGallery
-            images={images}
-            getCurrentImage={this.getCurrentImage}
-          />
-        )}
-        {/* {images || (
+        <Searchbar handleSubmit={this.handleSubmit} />
+        <ImageGallery images={images} getCurrentImage={this.getCurrentImage} />
+        {/* {images.length === 0 && (
           <h1 style={{ textAlign: 'center', marginTop: 50 }}>No images here</h1>
         )} */}
-
         {loadMore && <Button pageIncrement={this.pageIncrement} />}
         {loading && <Loader />}
         {showModal && (
