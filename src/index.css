@@ -29,6 +29,7 @@ code {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 2px;
 }
 .search-btn {
   background-color: transparent;
@@ -37,7 +38,7 @@ code {
 }
 .search-icon {
   stroke: white;
-  height: 18px;
+  height: 25px;
   padding: 2px;
 }
 /* .button-label {
